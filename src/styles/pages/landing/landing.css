@@ -381,8 +381,8 @@ nav ul:last-child li:hover a {
   font-weight: 400;
   font-size: 1.2rem;
   position: absolute;
-  -webkit-transform: translateY(-26px);
-          transform: translateY(-26px);
+  -webkit-transform: translateY(-2.6rem);
+          transform: translateY(-2.6rem);
   z-index: 4;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -664,8 +664,8 @@ nav ul:last-child li:hover a {
   font-weight: 400;
   font-size: 1.2rem;
   position: absolute;
-  -webkit-transform: translateY(-26px);
-          transform: translateY(-26px);
+  -webkit-transform: translateY(-2.6rem);
+          transform: translateY(-2.6rem);
   z-index: 4;
   display: -webkit-box;
   display: -ms-flexbox;

@@ -1,55 +1,91 @@
 import React,{ useRef, useState} from 'react'
 import "../../styles/pages/landing/landing.css"
 import { useAuth } from '../context/AuthContext'
-import axios from "axios"
+import { useNavigate } from 'react-router-dom';
+// import axios from "axios"
 
 const LandingPage = () => {
 
     const signEmailRef = useRef()
     const signPasswordRef = useRef()
+    const logEmailRef = useRef()
+    const logPasswordRef = useRef()
     const { signup } = useAuth()
+    const { login } = useAuth()
     const [error, setError] = useState('')
+    const [errorlog, setErrorlog] = useState('')
     const [loading, setLoading] = useState(false)
+    const navigate = useNavigate();
 
-    window.onload = () =>{
-        const visibility = document.getElementById("showpassword");
-        const password = document.getElementById("sign_password");
-        visibility.onclick = () => {
-            if(visibility.innerHTML === "visibility"){
-                visibility.innerHTML = "visibility_off";
-                password.type = "password";
-            }
-            else{
-                visibility.innerHTML = "visibility";
-                password.type = "text";
-            }
+    async function loginhandleSubmit(e) {
+        e.preventDefault();
+        try {
+            setError('')
+            setLoading(true)
+            await login(logEmailRef.current.value, logPasswordRef.current.value)
+            .then((userCredential) => {
+                navigate('/');
+                setErrorlog("Success")
+              })
+              .catch((error) => {
+                const errorCode = error.code.split("/");
+                const errorMessage = error.message.split(":");
+                const actualerror = errorMessage[1].split(".");
+                if(errorCode[1] === "user-not-found"){
+                    const login_email = document.getElementById("login_email");
+                    login_email.style.border = "2px solid #B10404";
+                    document.getElementsByClassName("icon2")[0].style.color = "#B10404";
+                    document.getElementById("login_email_error").style.color = "#B10404";
+                    document.getElementById("login_email_error").innerHTML = actualerror[0];
+                }
+                else if( errorCode[1]==="wrong-password"){
+                    const login_password = document.getElementById("login_password");
+                    document.getElementsByClassName("icon2")[1].style.color = "#B10404";
+                    login_password.style.border = "2px solid #B10404";
+                    document.getElementById("login_password_error").style.color = "#B10404";
+                    document.getElementById("login_password_error").innerHTML = actualerror[0];
+                }
+            });
         }
-        const visibility2 = document.getElementById("showpassword2");
-        visibility2.onclick = () => {
-            const login_password = document.getElementById("login_password");
-            if(visibility2.innerHTML === "visibility"){
-                visibility2.innerHTML = "visibility_off";
-                login_password.type = "password";
-            }
-            else{
-                visibility2.innerHTML = "visibility";
-                login_password.type = "text";
-            }
+        catch {
+            setErrorlog('Failed to Signin')
+            setTimeout(()=>{
+                setErrorlog('')
+            },1000)
         }
+        setLoading(false)
     }
 
     async function handleSubmit(e){
         e.preventDefault();
-
-        axios.post("http://localhost/Ode2Code2.0/billingsystem/PHP/database/signup.php", signEmailRef.current.value)
+        // axios.post("http://localhost/Ode2Code2.0/billingsystem/PHP/database/signup.php", signEmailRef.current.value)
 
         try {
             setError('')
             setLoading(true)
-            await signup(signEmailRef.current.value, signPasswordRef.current.value);
+            await signup(signEmailRef.current.value, signPasswordRef.current.value)
+            .then((userCredential) => {
+                navigate('/');
+                setError("Success")
+              })
+              .catch((error) => {
+                const errorCode = error.code.split("/");
+                const errorMessage = error.message.split(":");
+                const actualerror = errorMessage[1].split(".");
+                if(errorCode[1] === "invalid-email"){
+                    document.getElementById("email_error").innerHTML = actualerror[0];
+                    const email = document.getElementById("sign_email");
+                    email.style.border = "2px solid #B10404";
+                    document.getElementsByClassName("icon")[0].style.color = "#B10404";
+                    document.getElementById("email_error").style.color = "#B10404";
+                }
+            });
         }
         catch {
             setError('Failed to create an account')
+            setTimeout(()=>{
+                setError('')
+            },1000)
         }
         setLoading(false)
     }
@@ -104,8 +140,7 @@ const LandingPage = () => {
     const validpasswordblur = () => {
         const password = document.getElementById("sign_password");
         if(password.value.length === 0) {
-            document.getElementsByClassName("icon")[2].style.color = "#B10404";
-            document.getElementById("showpassword").style.color = "#B10404";
+            document.getElementsByClassName("icon")[1].style.color = "#B10404";
             password.style.border = "2px solid #B10404";
             document.getElementById("password_error").style.color = "#B10404";
             document.getElementById("password_error").innerHTML = "Password field is empty";
@@ -113,18 +148,15 @@ const LandingPage = () => {
         else{
             if(password.value.length < 6 && password.value.length > 0) {
                 document.getElementsByClassName("icon")[1].style.color = "#B10404";
-                document.getElementById("showpassword").style.color = "#B10404";
                 password.style.border = "2px solid #B10404";
                 document.getElementById("password_error").style.color = "#B10404";
                 document.getElementById("password_error").innerHTML = "Minimum 6 characters are required";
             }
             else{
                 document.getElementsByClassName("icon")[1].style.color = "#006931";
-                document.getElementById("showpassword").style.color = "#006931";
                 password.style.border = "2px solid #006931";
                 document.getElementById("password_error").style.color = "#006931";
                 document.getElementById("password_error").innerHTML = "Done";
-                document.getElementById("showpassword").style.color = "#006931";
             }
         }
     }
@@ -132,7 +164,6 @@ const LandingPage = () => {
         const password = document.getElementById("sign_password");
         password.style.border = "2px solid #7d28c8";
         document.getElementsByClassName("icon")[1].style.color = "#7d28c8";
-        document.getElementById("showpassword").style.color = "#7d28c8";
         document.getElementById("password_error").innerHTML = "";
     }
     
@@ -197,7 +228,6 @@ const LandingPage = () => {
         const login_password = document.getElementById("login_password");
         login_password.style.border = "2px solid #7d28c8";
         document.getElementsByClassName("icon2")[1].style.color = "#7d28c8";
-        document.getElementsByClassName("icon2")[2].style.color = "#7d28c8";
         document.getElementById("login_password_error").innerHTML = "";
     }
 
@@ -205,7 +235,6 @@ const LandingPage = () => {
         const login_password = document.getElementById("login_password");
         if(login_password.value.length === 0) {
             document.getElementsByClassName("icon2")[1].style.color = "#B10404";
-            document.getElementsByClassName("icon2")[2].style.color = "#B10404";
             login_password.style.border = "2px solid #B10404";
             document.getElementById("login_password_error").style.color = "#B10404";
             document.getElementById("login_password_error").innerHTML = "Password field is empty";
@@ -213,14 +242,12 @@ const LandingPage = () => {
         else{
             if(login_password.value.length < 6 && login_password.value.length > 0) {
                 document.getElementsByClassName("icon2")[1].style.color = "#B10404";
-                document.getElementsByClassName("icon2")[2].style.color = "#B10404";
                 login_password.style.border = "2px solid #B10404";
                 document.getElementById("login_password_error").style.color = "#B10404";
                 document.getElementById("login_password_error").innerHTML = "Minimum 6 characters are required";
             }
             else{
                 document.getElementsByClassName("icon2")[1].style.color = "#006931";
-                document.getElementsByClassName("icon2")[2].style.color = "#006931";
                 login_password.style.border = "2px solid #006931";
                 document.getElementById("login_password_error").style.color = "#006931";
                 document.getElementById("login_password_error").innerHTML = "Done";
@@ -261,7 +288,7 @@ const LandingPage = () => {
                 <p id="email"><span id="usericon" style={{fontSize: "2.7rem"}} className="material-symbols-outlined icon">alternate_email</span><i id="loader" className="fa-solid fa-spin fa-spinner"></i>Email Address</p>
                 <input type="email" ref={signEmailRef} onBlur={validemailblur} onFocus={validemailfocus} className="input" required="required" id="sign_email" placeholder="darpan.bahadur@example.com"/>
                 <pre id="email_error"></pre>
-                <p id="password"><span id="usericon" style={{fontSize: "2.7rem"}} className="material-symbols-outlined icon">lock</span><span id="showpassword" className="material-symbols-outlined icon">visibility_off</span>Password</p>
+                <p id="password"><span id="usericon" style={{fontSize: "2.7rem"}} className="material-symbols-outlined icon">lock</span>Password</p>
                 <input type="password" ref={signPasswordRef} onBlur={validpasswordblur} onFocus={validpasswordfocus} className="input" id="sign_password" required="required" placeholder="Must have minimum 6 characters"/>
                 <pre id="password_error"></pre>
                 <input type="submit" disabled={loading} onClick={handleSubmit} id="register" value="Register" style={{border: "none", background: "#9733EE", color: "white"}}/>
@@ -273,14 +300,14 @@ const LandingPage = () => {
             <form id="form4" className="animate__animated animate__faster">
                 <h3>Login with<br/>Floppy.</h3>
                 <p id="email"><span id="usericon" style={{fontSize: "2.7rem"}} className="material-symbols-outlined icon2">alternate_email</span>Email Address</p>
-                <input type="email" className="input" onBlur={validemaillogblur} onFocus={validemaillogfocus} id="login_email" placeholder="janecooper@gmail.com"/>
+                <input type="email" ref={logEmailRef} className="input" onBlur={validemaillogblur} onFocus={validemaillogfocus} id="login_email" placeholder="janecooper@gmail.com"/>
                 <pre id="login_email_error"></pre>
-                <p id="password"><span id="usericon" style={{fontSize: "2.7rem"}} className="material-symbols-outlined icon2">lock</span><span id="showpassword2" className="material-symbols-outlined icon2">visibility_off</span>Password</p>
-                <input type="password" onBlur={validlogpasswordblur} onFocus={validlogpasswordfocus2} className="input" id="login_password" placeholder="Must have minimum 6 characters"/>
+                <p id="password"><span id="usericon" style={{fontSize: "2.7rem"}} className="material-symbols-outlined icon2">lock</span>Password</p>
+                <input type="password" ref={logPasswordRef} onBlur={validlogpasswordblur} onFocus={validlogpasswordfocus2} className="input" id="login_password" placeholder="Must have minimum 6 characters"/>
                 <pre id="login_password_error"></pre>
-                <input type="submit"  value="Login" style={{border: "none", background: "#9733EE", color: "white"}} id="loginbtn"/>
+                <input type="submit" onClick={loginhandleSubmit} value="Login" style={{border: "none", background: "#9733EE", color: "white"}} id="loginbtn"/>
                 <aside id="loading2"><div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div></aside>
-                <a href="/">Don't have account? Signup</a>
+                <a href="/">{errorlog}</a>
             </form>
         </section>
     </>
