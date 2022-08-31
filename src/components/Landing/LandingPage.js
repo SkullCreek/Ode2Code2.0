@@ -2,7 +2,7 @@ import React,{ useRef, useState} from 'react'
 import "../../styles/pages/landing/landing.css"
 import { useAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom';
-// import axios from "axios"
+import axios from "axios"
 
 const LandingPage = () => {
 
@@ -51,23 +51,40 @@ const LandingPage = () => {
             setErrorlog('Failed to Signin')
             setTimeout(()=>{
                 setErrorlog('')
-            },1000)
+            },10000)
         }
         setLoading(false)
     }
 
     async function handleSubmit(e){
         e.preventDefault();
-        // axios.post("http://localhost/Ode2Code2.0/billingsystem/PHP/database/signup.php", signEmailRef.current.value)
+        
+        
 
         try {
             setError('')
             setLoading(true)
             await signup(signEmailRef.current.value, signPasswordRef.current.value)
             .then((userCredential) => {
-                navigate('/');
-                setError("Success")
-              })
+                // console.log(signEmailRef.current.value)
+                // axios.post("", signEmailRef.current.value)
+                const params = new URLSearchParams();
+                params.append('email', signEmailRef.current.value);
+                axios.post('http://localhost/Ode2Code2.0/billingsystem/PHP/database/signup.php', params)
+                .then(function (response) {
+                        if(response.data.trim() === "success"){
+                            setError("Success")
+                            navigate('/');
+                        }
+                        else{
+                            alert("Database Not Created");
+                        }
+                        
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                })
               .catch((error) => {
                 const errorCode = error.code.split("/");
                 const errorMessage = error.message.split(":");
@@ -85,7 +102,7 @@ const LandingPage = () => {
             setError('Failed to create an account')
             setTimeout(()=>{
                 setError('')
-            },1000)
+            },10000)
         }
         setLoading(false)
     }
