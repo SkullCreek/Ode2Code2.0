@@ -269,7 +269,7 @@ button, a {
   }
 }
 
-.app-sidebar-link:focus{
+.app-sidebar-link:active{
   background-color: var(--link-color-active-bg);
   color: var(--link-color-active);
 }
@@ -660,10 +660,6 @@ button, a {
     font-weight: 700;
     line-height: 16px;
     margin: 0;
-  }
-  
-  &-wrapper {
-    
   }
   
   &-percentage {

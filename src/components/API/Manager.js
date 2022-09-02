@@ -1,19 +1,19 @@
 const Manager = [{
-    href: "/",
+    href: "/Redeem",
     icon: "Redeem"
 },
 {
-    href: "/",
+    href: "/Shopping",
     icon: "shopping_bag"
 },
 {
-    href: "/",
+    href: "/Addtocart",
     icon: "shopping_cart"
 },{
-    href: "/",
+    href: "/Report",
     icon: "insights"
 },{
-    href: "/",
+    href: "/Recommend",
     icon: "psychology_alt"
 },
 ];

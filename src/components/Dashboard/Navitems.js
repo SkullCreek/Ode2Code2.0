@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Navitems = ({navData}) => {
   return (
@@ -6,9 +7,9 @@ const Navitems = ({navData}) => {
         {
             navData.map((curElem) => {
                 return (
-                    <a href={curElem.href} onClick={(e)=>{e.preventDefault()}} className="app-sidebar-link" key={curElem.icon}>
+                    <Link to={curElem.href} id={curElem.icon}  className="app-sidebar-link" key={curElem.icon}>
                         <span className="material-symbols-outlined">{curElem.icon}</span>
-                    </a>
+                    </Link>
                 )
             })
         }
