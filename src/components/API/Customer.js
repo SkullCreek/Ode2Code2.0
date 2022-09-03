@@ -1,6 +1,7 @@
 const Customer = [{
-    href: "/",
+    href: "/Redeem",
     icon: "Redeem"
-}];
+}
+];
 
 export default Customer;

@@ -1,16 +1,17 @@
 const Seller = [{
-    href: "/",
+    href: "/Redeem",
     icon: "Redeem"
 },
 {
-    href: "/",
+    href: "/Shopping",
     icon: "shopping_bag"
 },
 {
-    href: "/",
+    href: "/Addtocart",
     icon: "shopping_cart"
-},{
-    href: "/",
+},
+{
+    href: "/Recommend",
     icon: "psychology_alt"
 },
 ];
