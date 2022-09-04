@@ -352,7 +352,7 @@ button, a {
   color: var(--link-color-active);
 }
 
-.app-sidebar-link:focus {
+.app-sidebar-link:active {
   background-color: var(--link-color-active-bg);
   color: var(--link-color-active);
 }
@@ -1454,5 +1454,28 @@ button, a {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+}
+
+.add-items {
+  width: 100%;
+}
+
+.add-items input {
+  width: 100%;
+  margin: 15px 0px;
+  padding: 10px 20px;
+  border: 2px solid #a3a3a3;
+  font-size: 16px;
+}
+
+.add-items button {
+  width: 100%;
+  padding: 10px 20px;
+  border: none;
+  margin: 20px 0px;
+  background-color: #00F3A9;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
 }
 /*# sourceMappingURL=dashboard.css.map */

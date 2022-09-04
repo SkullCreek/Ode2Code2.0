@@ -14,10 +14,6 @@ ul {
   list-style: none;
 }
 
-#root{
-  width: 100%;
-}
-
 a {
   text-decoration: none;
 }
@@ -38,5 +34,9 @@ a {
   html {
     font-size: 35%;
   }
+}
+
+#root {
+  width: 100%;
 }
 /*# sourceMappingURL=global.css.map */
