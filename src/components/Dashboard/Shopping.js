@@ -6,6 +6,7 @@ const Shopping = () => {
     const [error, setError] = useState('');
     let [pro, setPro] = useState();
     useEffect(() => {
+        const getProduct = () => {
             axios.post('http://localhost/Ode2Code2.0/billingsystem/PHP/database/showproducts.php')
             .then(function (response) {
                 setPro(response.data)
@@ -13,6 +14,8 @@ const Shopping = () => {
             .catch(function (error) {
                 console.log(error);
             });
+        }
+        getProduct();
     },[]);
     const addProduct = (e) => {
         e.preventDefault();
@@ -28,16 +31,24 @@ const Shopping = () => {
         params.append('price', price.value);
         params.append('image', itemimg.value);
         axios.post('http://localhost/Ode2Code2.0/billingsystem/PHP/database/storeproducts.php', params)
-        .then(function (response) {
-            setError(response.data)
-            number.value = "";
-            name.value = "";
-            qty.value = "";
-            price.value = "";
-            itemimg.value = "";
-            setTimeout(() => {
-                setError('')
-            }, 10000);
+        .then(function (response1) {
+            axios.post('http://localhost/Ode2Code2.0/billingsystem/PHP/database/showproducts.php')
+            .then(function (response) {
+                setError(response1.data)
+                setPro(response.data)
+                number.value = "";
+                name.value = "";
+                qty.value = "";
+                price.value = "";
+                itemimg.value = "";
+                setTimeout(() => {
+                    setError('')
+                }, 5000);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+            
         })
         .catch(function (error) {
             setError(error)
@@ -52,7 +63,7 @@ return (
         <div className="projects-section-header">
             <p>Products</p>
         </div>
-        <div className="projects-section-line" >
+        <div className="shopping-container" >
         {
             pro ? <Productcard props={pro}/>:<h1>waiting</h1>
         }
@@ -69,9 +80,9 @@ return (
                 <input type="number" id='itemno' placeholder='Item Number'/>
                 <input type="name" id='itemname' placeholder='Item Name'/>
                 <input type="number" id='itemprice' placeholder='Item Price'/>
-                <input type="text" id='itemqty' placeholder='Item Quantity'/>
+                <input type="text" id='itemqty' placeholder='Item Description'/>
                 <input type="text" id='itemimg' placeholder='Image Link'/>
-                <button onClick={addProduct}>Submit</button>
+                <button id='submit' onClick={addProduct}>Submit</button>
                 <p>{error}</p>
             </form>
           </section>

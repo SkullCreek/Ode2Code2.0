@@ -364,7 +364,7 @@ button, a {
   background-color: var(--projects-section);
   border-radius: 32px;
   padding: 32px 32px 0 32px;
-  overflow: hidden;
+  overflow: auto;
   height: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -413,6 +413,21 @@ button, a {
 
 .projects-section-header .time {
   font-size: 20px;
+}
+
+.projects-section::-webkit-scrollbar {
+  width: 5px;
+}
+
+.projects-section::-webkit-scrollbar-track {
+  width: 5px;
+  background-color: transparent;
+}
+
+.projects-section::-webkit-scrollbar-thumb {
+  width: 5px;
+  background: #00F3A9;
+  border-radius: 10px;
 }
 
 .projects-status {
@@ -1477,5 +1492,17 @@ button, a {
   font-size: 16px;
   font-weight: 600;
   color: #ffffff;
+}
+
+.shopping-container {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
 }
 /*# sourceMappingURL=dashboard.css.map */
