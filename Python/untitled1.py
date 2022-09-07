@@ -1,11 +1,13 @@
 #import the libraries
+from multiprocessing.sharedctypes import Value
 import pandas as pd 
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity 
 from sklearn.feature_extraction.text import CountVectorizer
+from textblob import TextBlob
 
 #load the data
-path_to_csv_file="/Users/SHIVANSH/Desktop/Xiaomi/Project.csv"
+path_to_csv_file="/Users/SHIVANSH/Desktop/Xiaomi/Projecctt.csv"
 #store the data
 df=pd.read_csv(path_to_csv_file)
 #show the first 5 rows of data
@@ -50,10 +52,13 @@ cs=cosine_similarity(cm)
 cs.shape
 
 #get the company of the laptop that the user likes 
-name='Asus'
+name='HP'
 
 #Find the laptop id 
 model_id=df[df.Brand==name]['id'].values[0]
+# print(model_id)
+
+  
 
 #create a list of enumerations for the similarity score
 scores=list(enumerate(cs[model_id]))
@@ -68,9 +73,42 @@ sorted_scores=sorted_scores[1:]
 #create a loop to print the first 5 similar laptops 
 j=0
 print ('The 5 most recommended laptop of company ',name,'are : \n' )
+mydic={}
 for item in sorted_scores:
-  laptop_models=df[df.id==item[0]]['Model'].values[0]
-  print(j+1,laptop_models)
-  j=j+1
-  if j>5:
-    break
+    laptop_review=df[df.id==item[0]]['reviewDescription'].values[0]
+    blog1=TextBlob(laptop_review)
+    mydic[item[0]]=blog1.sentiment
+    j=j+1
+    if j>10:
+      # sort_mydic={}
+      # sort_mydic=sorted(mydic.items(),key=lambda x:x[1],reverse=True)
+      # # print(mydic)
+      sorted_values = sorted(mydic.values(),reverse=True) # Sort the values
+      sorted_dict = {}
+
+      for i in sorted_values:
+          for k in mydic.keys():
+              if mydic[k] == i:
+                  sorted_dict[k] = mydic[k]
+                  break
+      # print(sorted_dict)
+      k=0
+      for key,value in sorted_dict.items():
+          laptop_models=df[df.id==key+1]['Model'].values[0]
+          laptop_price=df[df.id==key+1]['Price in India'].values[0]
+          laptop_bestbuylink=laptop_price=df[df.id==key+1]['link'].values[0]
+          laptop_ram=laptop_price=df[df.id==key+1]['RAM'].values[0]
+          laptop_size=laptop_price=df[df.id==key+1]['Size'].values[0]
+          print( k+1,laptop_models,"   ",laptop_price,"   ",laptop_bestbuylink,"    ",laptop_ram,"    ",laptop_size,"\n")
+          k=k+1
+          if k>4:
+            break
+      break
+
+
+# print(sort_mydic)
+# print(type(sort_mydic))
+# for i, value in sort_mydic.items():
+#   print(i)
+# for item in sorted_scores:
+
