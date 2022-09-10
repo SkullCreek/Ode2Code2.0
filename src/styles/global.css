@@ -2,8 +2,7 @@
 * {
   padding: 0;
   margin: 0;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 html {
@@ -23,20 +22,16 @@ a {
     font-size: 50%;
   }
 }
-
 @media (max-width: 998px) {
   html {
     font-size: 40%;
   }
 }
-
 @media (max-width: 768px) {
   html {
     font-size: 35%;
   }
 }
-
 #root {
   width: 100%;
-}
-/*# sourceMappingURL=global.css.map */
+}/*# sourceMappingURL=global.css.map */
