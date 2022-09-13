@@ -37,7 +37,7 @@ const Addtocart = () => {
     input_amount.disabled = 'true';
     input_amount.placeholder = "0.00";
     var img = document.createElement("IMG");
-    img.src = "images/delete2.svg";
+    img.src = "images/icons/delete2.svg";
     img.style="cursor:pointer";
     product_tbody.append(tr);
     tr.append(td_item);
@@ -69,6 +69,26 @@ const Addtocart = () => {
         
     }
   }
+
+  const checkout = (e) => {
+    e.preventDefault();
+    alert();
+    let customer_email = document.getElementById("cstmr-email").value;
+    let customer_mobile = document.getElementById("cstmr-num").value;
+    let buying_date = document.getElementById("cstmr-date").value;
+    const params = new URLSearchParams();
+        params.append('email', customer_email);
+        params.append('mobile', customer_mobile);
+        params.append('date',buying_date);
+        axios.post('http://localhost/Ode2Code2.0/billingsystem/PHP/database/payment.php', params)
+        .then(function (response) {
+            console.log(response.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+  }
+
   function getProductdetails(){
     let id = document.getElementsByClassName("id");
     let item = document.getElementsByClassName("item");
@@ -184,7 +204,7 @@ return (
       <section className="storage">
         <form action="" className='add-items'>
           <textarea name="Address" id="address" cols="58" rows="10" placeholder='Address'></textarea>
-          <button id='buynow'>Proceed To Checkout</button>
+          <button id='buynow' onClick={checkout}>Proceed To Checkout</button>
         </form>
       </section>
     </div>
