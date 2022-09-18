@@ -22,6 +22,32 @@ My idea is to build a web billing application which can be divided into 3 main c
 </ul>
 <h3>Installation steps</h3>
 <p>Firstly clone all the files from github to local system</p>
-`npm`
-
-
+<p>1. Open VS Code Terminal and install all the dependencies using npm, use "npm i" to do so.</p>
+<p>2. Install Xampp server and open localhost/phpmyadmin and setup the the database by importing the billing.sql file.</p>
+<p>3. Start the ReactJS Server by writing "npm start" in terminal.</p>
+<p>4. Add the .env.local file provided by the developer in parent directory.</p>
+<h3>Feature</h3>
+<br>
+<p>Authentication is divided into three parts</p>
+<p>-manager (can see reports)</p>
+<p>-seller (can create invoice and satisfy the user</p>
+<p>-customer (can only access reedem coupons)</p>
+<br>
+<h5>Manager and seller can directly add the product to database with a perticular id so that it can be accessed in the add to cart section.</h5>
+<img src="https://user-images.githubusercontent.com/92776555/190911076-ee3a37c7-29b3-40c7-a504-0fec1d53a300.png">
+<h5>In the Add to Cart section seller can add products by its id mentioned in add product section</h5>
+<img src="https://user-images.githubusercontent.com/92776555/190911452-c34558c3-8dd7-4e8b-b804-3aa161e1d3f3.png">
+<h5>Manager can check Daily, Monthly and Yearly Report.</h5>
+<img src="https://user-images.githubusercontent.com/92776555/190911569-f42b68ea-7a7f-4487-926b-bd5d10af68cb.png">
+<h5>After every transcation Customer can get coupons from 0 to 50 percent.</h5>
+<img src="https://user-images.githubusercontent.com/92776555/190911693-2cd521bc-9969-480d-9048-e00bbb3de6e6.png">
+<h5>Run the Python file for recommandation system. It does sentimental analysis to get the recommanded products from the .csv file.</h5>
+<h2>Problem</h2>
+<p>As this is a web app this needs to get hosted in hosting platform, This is not a installable application. Which makes this application hard and expensive to use.</p>
+<h2>Solution</h2>
+<p>As this is a react app which is a single page application we can convert this installable application by using ReactNative or CORDOVA. Then We just have to setup our server</p>
+<h2>FUTURE SCOPE: 🤖</h2>
+<p>We can use Flask to connect our React app to Python which will make our Recommendation engine GUI ready.</p>
+<p>We can make this web app an installable app by using CORDOVA or ReactNative.</p>
+<p>We can make it fully responsive.</p>
+<p>We can also add more features to it like searchbar, QRscan, etc.</p>
