@@ -1,0 +1,16 @@
+<?php
+
+    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Headers: *');
+    require("../connection/database.php");
+    $t_date = date("Y-m-d");
+    $daily_sale = "SELECT SUM(Amount) AS total FROM customer WHERE Date = '$t_date'";
+    if($response = $db->query($daily_sale)){
+        $data = $response->fetch_assoc();
+        echo $data['total'];
+    }
+    else{
+        echo "error";
+    }
+
+?>

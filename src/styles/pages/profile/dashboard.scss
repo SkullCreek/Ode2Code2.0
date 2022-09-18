@@ -1458,3 +1458,19 @@ $circle-circumstance: ( 2 * (22 / 7) * 40 );
   height: 200px;
   display: none;
 }
+
+#report-container{
+  justify-content: space-around;
+  flex-direction: row!important;
+  aside{
+    width: 25%;
+    padding: 1rem 2rem;
+    background-color: #c9ffef92;
+    display: grid;
+    place-items: center;
+    h1{
+      color: rgb(53, 53, 53);
+      padding-bottom: 1rem;
+    }
+  }
+}

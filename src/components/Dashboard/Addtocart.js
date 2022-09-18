@@ -72,17 +72,29 @@ const Addtocart = () => {
 
   const checkout = (e) => {
     e.preventDefault();
-    alert();
     let customer_email = document.getElementById("cstmr-email").value;
+    let customer_name = document.getElementById("cstmr-name").value;
     let customer_mobile = document.getElementById("cstmr-num").value;
     let buying_date = document.getElementById("cstmr-date").value;
+    let address = document.getElementById("address").value;
+    let total_amount = document.getElementById("total").innerHTML;
     const params = new URLSearchParams();
         params.append('email', customer_email);
         params.append('mobile', customer_mobile);
+        params.append('name', customer_name);
         params.append('date',buying_date);
+        params.append('amt',total_amount);
+        params.append('address',address);
         axios.post('http://localhost/Ode2Code2.0/billingsystem/PHP/database/payment.php', params)
         .then(function (response) {
-            console.log(response.data);
+            if(response.data !== "error"){
+              let a = document.createElement("A");
+              a.href = response.data;
+              a.click();
+            }
+            else{
+              console.log("error");
+            }
         })
         .catch(function (error) {
             console.log(error);
@@ -119,6 +131,7 @@ const Addtocart = () => {
         setTimeout(()=>{
           let sum = 0;
           for(let j = 0 ; j < qty.length ; j++){
+
             sum = sum + parseInt(amt[j].value);
           }
           total1.innerHTML = sum
@@ -131,6 +144,7 @@ const Addtocart = () => {
         amt[i].value = qty[i].value*price[i].value;
         let sum = 0;
         for(let j = 0 ; j < qty.length ; j++){
+          alert(amt[j].value);
           sum = sum + parseInt(amt[j].value);
         }
         total1.innerHTML = sum
